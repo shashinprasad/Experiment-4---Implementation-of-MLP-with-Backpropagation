@@ -102,11 +102,11 @@ In the backward pass,
 
 1.Import the necessary libraries of python.
 
-2. After that, create a list of attribute names in the dataset and use it in a call to the read_csv() function of the pandas library along with the name of the CSV file containing the dataset.
+2.After that, create a list of attribute names in the dataset and use it in a call to the read_csv() function of the pandas library along with the name of the CSV file containing the dataset.
 
-3. Divide the dataset into two parts. While the first part contains the first four columns that we assign in the variable x. Likewise, the second part contains only the last column that is the class label. Further, assign it to the variable y.
+3.Divide the dataset into two parts. While the first part contains the first four columns that we assign in the variable x. Likewise, the second part contains only the last column that is the class label. Further, assign it to the variable y.
 
-4. Call the train_test_split() function that further divides the dataset into training data and testing data with a testing data size of 20%.
+4.Call the train_test_split() function that further divides the dataset into training data and testing data with a testing data size of 20%.
 Normalize our dataset. 
 
 5.In order to do that we call the StandardScaler() function. Basically, the StandardScaler() function subtracts the mean from a feature and scales it to the unit variance.
@@ -115,10 +115,56 @@ Normalize our dataset.
 
 7.In order to get the predicted values we call the predict() function on the testing data set.
 
-8. Finally, call the functions confusion_matrix(), and the classification_report() in order to evaluate the performance of our classifier.
+8.Finally, call the functions confusion_matrix(), and the classification_report() in order to evaluate the performance of our classifier.
 
+
+## Developed by:Shashin prasad.S
+## Registration no:212222230144
 ## PROGRAM 
+```
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+data=pd.read_csv("/content/IRIS (1).csv")
+data.head()
 
-## OUTPUT 
+name=["sepal_length","sepal_width","petal_length","petal_width"]
+x=data.iloc[:,0:4]
+y=data.select_dtypes(include=[object])
+x.head()
+y.head()
+
+from sklearn import preprocessing
+label_encoder=preprocessing.LabelEncoder()
+data['species']=label_encoder.fit_transform(data['species'])
+data['species'].unique()
+
+from sklearn.model_selection import train_test_split
+x_train,x_test,y_train,y_test=train_test_split(x,y,test_size=0.20)
+from sklearn.preprocessing import StandardScaler
+scaler=StandardScaler()
+scaler.fit(x_train)
+x_train=scaler.transform(x_train)
+x_test=scaler.transform(x_test)
+
+from sklearn.metrics import classification_report, confusion_matrix
+from sklearn.neural_network import MLPClassifier
+mlp=MLPClassifier(hidden_layer_sizes=(10,10,10),max_iter=1000)
+mlp.fit(x_train,y_train.values.ravel())
+predictions=mlp.predict(x_test)
+print(predictions)
+
+print(confusion_matrix(y_test,predictions))
+print(classification_report(y_test,predictions))
+```
+
+## OUTPUT
+<img width="527" alt="1" src="https://user-images.githubusercontent.com/94165103/198822658-6bdd3dff-f80c-4c45-83db-4855434dbe1e.png">
+<img width="464" alt="2" src="https://user-images.githubusercontent.com/94165103/198822677-5622c729-35b6-4477-90c1-886b8063be05.png">
+<img width="450" alt="3" src="https://user-images.githubusercontent.com/94165103/198822692-7090cc10-4e1d-4863-8057-b796bde78d23.png">
+<img width="527" alt="4" src="https://user-images.githubusercontent.com/94165103/198822704-dc56cdeb-9f8a-4e4f-95df-ac6be544fcbb.png">
+<img width="514" alt="5" src="https://user-images.githubusercontent.com/94165103/198822713-61bf3cad-90cb-45fb-8889-9845a7db10ab.png">
 
 ## RESULT
+
+Thus Implementation-of-MLP-with-Backpropagation problem is executed successfully.
